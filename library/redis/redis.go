@@ -13,7 +13,7 @@ import (
 )
 
 var once = sync.Once{}
-var currentClient *redis.Client
+var CurrentClient *redis.Client
 
 type Lock struct {
 	Redis       *redis.Client
@@ -59,17 +59,17 @@ func newRedisClient() {
 	if resp.Err() != nil {
 		panic(resp.Err())
 	}
-	currentClient = newRedisClient
+	CurrentClient = newRedisClient
 
-	// currentClient.Set(ctx, "gbg", 123, 30*time.Second)
+	// CurrentClient.Set(ctx, "gbg", 123, 30*time.Second)
 }
 
 // using sync.once to only init redis client once
 func GetRedisClient() *redis.Client {
-	if currentClient == nil {
+	if CurrentClient == nil {
 		once.Do(func() { newRedisClient() })
 	}
-	return currentClient
+	return CurrentClient
 }
 
 // return lockId which used to identify locks

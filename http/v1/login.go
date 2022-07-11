@@ -41,7 +41,7 @@ func Login(c *gin.Context) {
 		return
 	}
 	redis.GetRedisClient().Set(c, "username", parsedQuery.User, 30*time.Second)
-
+	c.JSON(http.StatusOK, gin.H{"status": "200"})
 }
 
 // GET localhost:3000/v1/info/1?username=admin&passwd=123qwe
@@ -87,9 +87,16 @@ func LockDemo(c *gin.Context) {
 func SessionDemo(c *gin.Context) {
 	// session set demo
 	session := middleware.GetSession(c)
+	if session == nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"status": "401"})
+		return
+	}
+	fmt.Println("SessionDemo, GetSession: ", session)
 	err := session.Set("aaa", "aaaaa")
 	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"status": "401", "errorMsg": "failed to set session"})
 		fmt.Printf("err: ", err)
+		return
 	}
 
 	// session get bey key demo

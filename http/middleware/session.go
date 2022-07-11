@@ -94,6 +94,7 @@ func (s *Session) Set(key string, val interface{}) error {
 	defer s.Lock.Unlock()
 	sessionString, err := redis.GetRedisClient().Get(context.TODO(), s.Key).Result()
 	if err != nil {
+		fmt.Println("----GetRedisClient error key ----", s.Key)
 		fmt.Println("----GetRedisClient error----", err)
 		return err
 	}

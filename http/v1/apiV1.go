@@ -17,7 +17,7 @@ func RouteLoader(r *gin.Engine) {
 		v1.POST("/login/", Login)
 		v1.GET("/info/:id", GetInfo)
 		v1.GET("/session", middleware.SessionMiddleware(), SessionDemo)
-		v1.GET("/LockDemo", LockDemo)
+		v1.GET("/lockDemo", LockDemo)
 
 		// redirect request
 		v1.GET("/baidu", func(c *gin.Context) {
