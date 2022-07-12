@@ -1,48 +1,21 @@
 package http
 
 import (
-	"fmt"
 	"gin_demo/http/middleware"
 	v1 "gin_demo/http/v1"
 	v2 "gin_demo/http/v2"
-	"net/http"
-	"strings"
-	"time"
+
+	"gin_demo/service"
 
 	"github.com/gin-gonic/gin"
 )
 
-func urlHandller(c *gin.Context) {
-	// name := c.Query("name") //if no query passed, then return empty string
-	name := c.Query("name")
-	// name := c.DefaultQuery("name", "default_name")
-	msg, flag := c.Get("timestamp")
-	if !flag {
-		fmt.Println("error: ", flag)
-	}
-	fmt.Println("msg from middleWare: ", msg)
-	var resp struct {
-		Name string
-		Time string
-	}
-	resp.Name = name
-	resp.Time = time.Now().String()
-	c.JSON(http.StatusOK, resp)
-}
+var (
+	svc *service.Service
+)
 
-func apiHandller(c *gin.Context) {
-	name := c.Param("name")
-	action := c.Param("action")
-	//截取/
-	action = strings.Trim(action, "/")
-	c.String(http.StatusOK, name+" is "+action)
-}
-
-func formHandler(c *gin.Context) {
-	types := c.DefaultPostForm("type", "post")
-	username := c.PostForm("username")
-	password := c.PostForm("password ")
-	c.String(http.StatusOK, fmt.Sprintf("username: %s, password: %s, types: %s", username, password, types))
+func Init(s *service.Service) {
+	svc = s
 }
 
 // *gin.Engine is the thing that can be passed around
@@ -60,6 +33,6 @@ func SetupRouter(r *gin.Engine) {
 	// v2.POST("/form", MiddleWare(), formHandler)
 
 	//load router endpoints, basically wrapper over the code block below
-	v1.RouteLoader(r)
-	v2.RouteLoader(r)
+	v1.RouteLoader(r, svc)
+	v2.RouteLoader(r, svc)
 }

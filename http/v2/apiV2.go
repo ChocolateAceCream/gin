@@ -1,10 +1,17 @@
 package v2
 
 import (
+	"gin_demo/service"
+
 	"github.com/gin-gonic/gin"
 )
 
-func RouteLoader(r *gin.Engine) {
+var (
+	svc *service.Service
+)
+
+func RouteLoader(r *gin.Engine, s *service.Service) {
+	svc = s
 	v2 := r.Group("/v2")
 	{
 		v2.POST("/form", FormHandler)

@@ -1,8 +1,6 @@
 package v1
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,5 +16,7 @@ func GetAllUsers(c *gin.Context) {
 	// 	c.JSON(http.StatusBadRequest, gin.H{"errorMsg": "not authorized"})
 	// 	return
 	// }
-	c.JSON(http.StatusOK, gin.H{"status": "200", "from": "getinfo"})
+	c.JSON(svc.GetAllUsers(c))
+
+	// c.JSON(http.StatusOK, gin.H{"status": "200", "from": "getinfo"})
 }

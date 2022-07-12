@@ -2,13 +2,19 @@ package v1
 
 import (
 	"gin_demo/http/middleware"
+	"gin_demo/service"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	svc *service.Service
+)
+
 // load api v1 endpoints
-func RouteLoader(r *gin.Engine) {
+func RouteLoader(r *gin.Engine, s *service.Service) {
+	svc = s
 	v1 := r.Group("/v1")
 	// {} is standard format for route group
 	{

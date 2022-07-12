@@ -7,6 +7,8 @@ import (
 	"log"
 	"os"
 
+	"gin_demo/service"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -32,10 +34,11 @@ func Init() *gin.Engine {
 	r := gin.Default()
 
 	//init service
+	s := service.New()
+	http.Init(s)
 
 	//init router
 	http.SetupRouter(r)
-
 	// init redis session store
 	// services.SetupSession(r)
 	return r
@@ -49,4 +52,22 @@ func main() {
 		fmt.Printf("startup service failed, err:%v\n", err)
 	}
 	r.Run(":3000")
+
+	// TODO: add graceful shutdown, and close db using s.Close()
+	// c := make(chan os.Signal, 1)
+	// signal.Notify(c, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT)
+	// for {
+	// 	si := <-c
+	// 	log.Printf("get a signal %s", si.String())
+	// 	switch si {
+	// 	case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
+	// 		log.Println(" exit")
+	// 		// s.Close()
+	// 		time.Sleep(10 * time.Second)
+	// 		return
+	// 	case syscall.SIGHUP:
+	// 	default:
+	// 		return
+	// 	}
+	// }
 }
