@@ -20,3 +20,15 @@ func GetAllUsers(c *gin.Context) {
 
 	// c.JSON(http.StatusOK, gin.H{"status": "200", "from": "getinfo"})
 }
+
+func AddUser(c *gin.Context) {
+	c.JSON(svc.AddUser(c))
+}
+
+func EditUser(c *gin.Context) {
+	c.JSON(svc.EditUser(c))
+}
+
+func DeleteUser(c *gin.Context) {
+	c.JSON(svc.DeleteUser(c))
+}

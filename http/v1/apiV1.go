@@ -33,6 +33,9 @@ func RouteLoader(r *gin.Engine, s *service.Service) {
 		user := v1.Group("/customer")
 		{
 			user.GET("/query", GetAllUsers)
+			user.POST("/new", AddUser)
+			user.PUT("/edit", EditUser)
+			user.DELETE("/delete", DeleteUser)
 		}
 	}
 }
