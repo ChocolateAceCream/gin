@@ -5,9 +5,12 @@ import (
 	v1 "gin_demo/http/v1"
 	v2 "gin_demo/http/v2"
 
+	_ "gin_demo/docs"
 	"gin_demo/service"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 var (
@@ -33,6 +36,10 @@ func SetupRouter(r *gin.Engine) {
 	// v2.POST("/form", MiddleWare(), formHandler)
 
 	//load router endpoints, basically wrapper over the code block below
+
 	v1.RouteLoader(r, svc)
 	v2.RouteLoader(r, svc)
+
+	url := ginSwagger.URL("http://localhost:3030/swagger/doc.json") // The url pointing to API definition
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 }

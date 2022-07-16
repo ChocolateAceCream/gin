@@ -48,10 +48,9 @@ func main() {
 
 	r := Init()
 
-	if err := r.Run(); err != nil {
+	if err := r.Run("localhost:3000"); err != nil {
 		fmt.Printf("startup service failed, err:%v\n", err)
 	}
-	r.Run(":3000")
 
 	// TODO: add graceful shutdown, and close db using s.Close()
 	// c := make(chan os.Signal, 1)
