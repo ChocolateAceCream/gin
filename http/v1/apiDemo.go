@@ -2,6 +2,7 @@ package v1
 
 import (
 	"fmt"
+	"gin_demo/model"
 	"net/http"
 	"strings"
 	"time"
@@ -40,4 +41,18 @@ func FormHandler(c *gin.Context) {
 	username := c.PostForm("username")
 	password := c.PostForm("password ")
 	c.String(http.StatusOK, fmt.Sprintf("username: %s, password: %s, types: %s", username, password, types))
+}
+
+func ValidationDemo(c *gin.Context) {
+	var u *model.SignUpParam
+	if err := c.ShouldBind(&u); err != nil {
+		fmt.Println("ValidationDemo error: ", err)
+		c.JSON(http.StatusOK, gin.H{
+			"msg": err.Error(),
+		})
+		return
+	}
+	// other logics
+
+	c.JSON(http.StatusOK, "success")
 }

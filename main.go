@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"gin_demo/service"
+	"gin_demo/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -33,6 +34,9 @@ func Init() *gin.Engine {
 	// make sure gin.Default() is executed after init logger
 	r := gin.Default()
 
+	//register validator
+	utils.InitValidator()
+
 	//init service
 	s := service.New()
 	http.Init(s)
@@ -48,7 +52,7 @@ func main() {
 
 	r := Init()
 
-	if err := r.Run("localhost:3000"); err != nil {
+	if err := r.Run(); err != nil {
 		fmt.Printf("startup service failed, err:%v\n", err)
 	}
 
