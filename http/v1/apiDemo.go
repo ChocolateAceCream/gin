@@ -2,12 +2,14 @@ package v1
 
 import (
 	"fmt"
+	"gin_demo/library/logger"
 	"gin_demo/model"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func UrlHandler(c *gin.Context) {
@@ -46,7 +48,7 @@ func FormHandler(c *gin.Context) {
 func ValidationDemo(c *gin.Context) {
 	var u *model.SignUpParam
 	if err := c.ShouldBind(&u); err != nil {
-		fmt.Println("ValidationDemo error: ", err)
+		logger.ZapLog_V1.Error("ValidationDemo error", zap.Error(err))
 		c.JSON(http.StatusOK, gin.H{
 			"msg": err.Error(),
 		})

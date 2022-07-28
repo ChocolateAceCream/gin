@@ -1,3 +1,5 @@
 .env
 gin-bin
 gin.log
+server.log
+config.yaml

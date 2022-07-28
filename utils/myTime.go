@@ -3,8 +3,10 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"gin_demo/library/logger"
 	"time"
+
+	"go.uber.org/zap"
 )
 
 type MyTime time.Time
@@ -28,6 +30,6 @@ func (mt MyTime) TimeStamp() (ts int64) {
 
 func (mt MyTime) MarshalJSON() ([]byte, error) {
 	timestamp := time.Time(mt).UnixNano() / 1e6
-	log.Println(time.Time(mt).UnixNano())
+	logger.ZapLog_V1.Info("timestamp: ", zap.Int64("time", timestamp))
 	return json.Marshal(timestamp)
 }

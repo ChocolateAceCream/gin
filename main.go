@@ -3,10 +3,8 @@ package main
 import (
 	"fmt"
 	"gin_demo/http"
-	"io"
-	"log"
-	"os"
 
+	"gin_demo/library/logger"
 	"gin_demo/service"
 	"gin_demo/utils"
 
@@ -15,21 +13,21 @@ import (
 )
 
 func Init() *gin.Engine {
+
+	// setup zap logger
+	logger.Init()
+
 	//load env variable
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		panic(err)
 	}
 
-	//setup log
-	gin.DisableConsoleColor()
-
-	// Logging to a file.
-	f, _ := os.Create("gin.log")
-	gin.DefaultWriter = io.MultiWriter(f)
-
-	// 如果需要同时将日志写入文件和控制台，请使用以下代码。
-	// gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+	//load config.yaml
+	err = godotenv.Load("config.yaml")
+	if err != nil {
+		panic(err)
+	}
 
 	// make sure gin.Default() is executed after init logger
 	r := gin.Default()
