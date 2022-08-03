@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"gin_demo/global"
 	"gin_demo/http"
 
 	"gin_demo/library/logger"
@@ -28,6 +29,13 @@ func Init() *gin.Engine {
 	if err != nil {
 		panic(err)
 	}
+
+	// init viper
+	global.Config = utils.Viper("config.yaml")
+
+	// e.g usage:
+	// jwt := global.Config.GetStringMap("jwt")
+	// fmt.Println("----jwt----", jwt)
 
 	// make sure gin.Default() is executed after init logger
 	r := gin.Default()
